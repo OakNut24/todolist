@@ -5,7 +5,7 @@ const cookieSession = require("cookie-session");
 const passport = require("passport");
 const connectDB = require("./config/db");
 const path = require("path");
-const url= require("./config/url");
+const url = require("./config/url");
 
 //Initialize the express app
 const app = express();
@@ -38,18 +38,18 @@ app.use(express.json());
 
 
 // Set the routes controller for each route 
-app.use("/auth",require("./routes/auth") );
-app.use("/note",require("./routes/note") );
+// app.use("/auth",require("./routes/auth") );
+app.use("/task", require("./routes/task"));
 
 //Serve static assets if in production
-if(process.env.NODE_ENV === 'production'){
+if (process.env.NODE_ENV === 'production') {
   //Set a static folder
   app.use(express.static('client/build'));
-  
-  app.get("*", (req,res) => {
-    res.sendFile(path.resolve(__dirname, "client","build", "index.html"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
-}else{
+} else {
   console.log("not in production");
 }
 
@@ -58,21 +58,12 @@ connectDB();
 
 
 // require("./auth/passport");
-require("./config/passportGoogleSSO")(passport);
- 
-
-// HTTPS REQUESTS
-
-
- 
-  
-
-
+// require("./config/passportGoogleSSO")(passport);
 
 const PORT = process.env.PORT || "5000";
 
 app.listen(
   PORT, () => {
-    console.log(("Server running on "+PORT));
+    console.log(("Server running on " + PORT));
   }
 )

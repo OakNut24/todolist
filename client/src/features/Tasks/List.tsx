@@ -10,7 +10,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
-import ListBlock from './ListBlock';
+import ListBlock from './TaskListBlock';
+import CreateTaskDialog from './CreateTaskDialog';
 
 export default function List() {
 
@@ -42,6 +43,7 @@ export default function List() {
                     <AddIcon fontSize='large' sx={{ color: 'secondary.main' }} />
                 </IconButton>
             </CardActions>
+            <CreateTaskDialog open={true} />
         </Card></>
 }
 

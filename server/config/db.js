@@ -3,8 +3,8 @@ const mongoose = require('mongoose')
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.ATLAS_URI, {
-      useNewUrlParser: true, 
-      useUnifiedTopology: true //Not getting errors when connection to MongoDB beacause of version change 
+      useNewUrlParser: true,
+      useUnifiedTopology: true //We pass the useNewUrlParser: true, etc. to mongoose.connect() to avoid the DeprecationWarning.
     })
 
     console.log(`MongoDB Connected: ${conn.connection.host}`)

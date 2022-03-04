@@ -2,8 +2,8 @@ import { Container, CssBaseline, ListItem } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import ListBlock from '../../features/List/ListBlock';
-import List from '../../features/List/List';
+import ListBlock from '../../features/Tasks/TaskListBlock';
+import List from '../../features/Tasks/List';
 
 import './App.css';
 
