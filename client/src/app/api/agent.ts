@@ -6,6 +6,15 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const responseBody = (response: AxiosResponse) => response.data;
 
+
+function createFormData(item: any) {
+    let formData = new FormData();
+    for (const key in item) {
+        formData.append(key, item[key])
+    }
+    return formData;
+}
+
 const requests = {
     get: (url: string, params?: URLSearchParams) => axios.get(url, { params }).then(responseBody),
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
@@ -19,3 +28,9 @@ const Tasks = {
     // updateTask: (product: any) => requests.putForm('products', createFormData(product)),
     // deleteTask: (id: number) => requests.delete(`products/${id}`)
 }
+
+const agent = {
+    Tasks
+}
+
+export default agent;

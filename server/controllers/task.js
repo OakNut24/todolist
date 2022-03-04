@@ -12,55 +12,25 @@ const addNewTask = (async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-    // let task = req.body;//Takes all the data inside the req. googleId and etc'
-    // let googleId = "";
-    // if (task) {
-    //     googleId = task.googleId;
-    // } else {
-    //     googleId = "no googleId";
-    // }
-
-
-    // const newTask = new Task({
-    //     title: task.title,
-    //     desc: task.content,
-    //     googleId: task.googleId,
-    // });
-    // newTask.save()
-    //     .then(() => res.send({ _id: newTask._id })) //Send the new task created at the MongoDB Atlas with the _id to the client 
-    //     .catch(err => res.status(400).json('Error: ' + err));
 });
 
 const getUserTasks = (async (req, res) => {
+    let userGoogleId = req.params.googleId;
+    console.log("1111");
     try {
-        let response = await Task.find({}, (err, tasks) => {
-            if (err) {
-                res.status(500).json(err)
-            } else {
-                res.json(tasks);
-            }
-        })
+        let tasks;
+        if (userGoogleId) {
+            tasks = await Task.find({ googleId: userGoogleId });
+        }
+        else {
+            tasks = await Task.find();
+        }
+        res.status(200).json(tasks);
+
     } catch (err) {
         res.status(500).json(err)
     }
-    // let userGoogleId = req.params.googleId;
 });
-
-
-// const getNoteWithID = ((req, res) => {
-
-//     Note.findOne({ _id: req.params.noteID }, (err, note) => {
-//         if (err) {
-//             res.send(err);
-//         } else {
-//             if (note) {
-//                 res.json(note);
-//             } else {
-//                 res.json({ message: "Not not found with ID:" + req.params.noteID });
-//             }
-//         }
-//     });
-// });
 
 const updateTaskWithId = (async (req, res) => {
     try {

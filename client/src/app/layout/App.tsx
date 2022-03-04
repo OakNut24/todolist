@@ -2,8 +2,7 @@ import { Container, CssBaseline, ListItem } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import ListBlock from '../../features/Tasks/TaskListBlock';
-import List from '../../features/Tasks/List';
+import Tasks from '../../features/Tasks/Tasks';
 
 import './App.css';
 
@@ -50,7 +49,7 @@ export default function App() {
           {/* <List /> */}
 
           <Routes>
-            <Route path="/" element={<List />} />
+            <Route path="/" element={<Tasks />} />
             <Route
               path="*"
               element={

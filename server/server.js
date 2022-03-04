@@ -39,7 +39,7 @@ app.use(express.json());
 
 // Set the routes controller for each route 
 // app.use("/auth",require("./routes/auth") );
-app.use("/task", require("./routes/task"));
+app.use("/api/task", require("./routes/task"));
 
 //Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
