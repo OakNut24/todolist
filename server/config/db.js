@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.ATLAS_URI, {
-      useNewUrlParser: true,
+      useNewUrlParser: true, 
       useUnifiedTopology: true //Not getting errors when connection to MongoDB beacause of version change 
     })
 
