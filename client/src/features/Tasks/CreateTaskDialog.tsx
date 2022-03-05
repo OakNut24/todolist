@@ -17,21 +17,24 @@ export interface Props {
     open: boolean;
     onClose: () => void;
     handleTaskCreated: (task: Task) => void;
+    task?: Task;
 }
 
 export default function CreateTaskDialog(props: Props) {
     const { control, reset, watch, setError, handleSubmit, formState: { errors } } = useForm({
         resolver: yupResolver(validationScehma)
     });
-    const { open, onClose, handleTaskCreated, ...other } = props;
+    const { open, onClose, handleTaskCreated, task, ...other } = props;
+
+
+    useEffect(() => {
+        if (task) {
+            reset(task)
+        }
+    })
 
     const handleCancel = () => {
-        reset({
-            name: "",
-            genre: "",
-            rating: 0,
-            file: null,
-        });
+        reset();
         onClose();
     };
 

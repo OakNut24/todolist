@@ -41,9 +41,26 @@ export default function Tasks() {
 
     function handleTaskCreated(task: Task) {
         console.log("the added task:" + task);
-        setTasks((prevTask) => {
-            return [...prevTask, task];
+        setTasks((prevTasks) => {
+            return [...prevTasks, task];
         });
+    }
+
+    async function handleTaskDeleted(taskId: string) {
+
+        try {
+            let response: Task;
+            response = await agent.Tasks.deleteTask(taskId);
+            setTasks((prevTasks) => {
+                return prevTasks.filter((task) => {
+                    return task._id !== taskId;
+                })
+            });
+        } catch (err) {
+            console.log("error trying to delete  task to server side" + err);
+        }
+
+
     }
 
     return <>
@@ -59,7 +76,7 @@ export default function Tasks() {
             <CardContent>
                 {tasks.map((task) => (
                     <Box key={task._id}>
-                        <TaskListBlock task={task} />
+                        <TaskListBlock task={task} onDelete={handleTaskDeleted} />
                     </Box>
                 ))}
 
@@ -73,23 +90,3 @@ export default function Tasks() {
             <CreateTaskDialog open={openCreateDialog} onClose={handleCloseDialog} handleTaskCreated={handleTaskCreated} />
         </Card></>
 }
-
-// <Card sx={{ maxWidth: 345 }}>
-//     <CardHeader
-//         title="Shrimp and Chorizo Paella"
-//         subheader="September 14, 2016"
-//     />
-
-//     <CardContent>
-//         <Typography variant="body2" color="text.secondary">
-//             This impressive paella is a perfect party dish and a fun meal to cook
-//             together with your guests. Add 1 cup of frozen peas along with the mussels,
-//             if you like.
-//         </Typography>
-//     </CardContent>
-//     <CardActions disableSpacing>
-//         {/* <IconButton aria-label="add to favorites">
-//                     <FavoriteIcon />
-//                 </IconButton> */}
-//     </CardActions>
-// </Card>

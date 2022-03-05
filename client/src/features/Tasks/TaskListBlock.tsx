@@ -16,6 +16,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ListBlockMenu from './ListBlockMenu';
 import CheckBox from '../../app/components/Checkbox';
 import { Task } from '../../app/Models/Task';
+import agent from '../../app/api/agent';
 
 
 
@@ -32,8 +33,19 @@ export default function ListBlock(props: any) {
         console.log("close")
     }
 
-    function handleCheckBoxClick() {
+    async function handleCheckBoxClick(newStatus: boolean) {
         console.log("checkbox pressed")
+        try {
+            const response = await agent.Tasks.updateTask(props.task._id, {
+                status: newStatus
+            })
+        } catch (err) {
+            console.error("error sending new status to server" + err);
+        }
+    }
+
+    function handleDelete() {
+        props.onDelete(props.task._id);
     }
 
     return <>
@@ -50,10 +62,10 @@ export default function ListBlock(props: any) {
                 {/* <IconButton aria-label="add to favorites">
                     <CheckBoxIcon fontSize='medium' sx={{ color: 'secondary.main' }} />
                 </IconButton> */}
-                <IconButton aria-label="add to favorites" onClick={handleClick}>
+                <IconButton aria-label="task menu" onClick={handleClick}>
                     <DragHandleIcon fontSize='medium' />
                 </IconButton>
-                <ListBlockMenu anchorEl={anchorEl} onClose={handleClose} />
+                <ListBlockMenu anchorEl={anchorEl} onClose={handleClose} onDelete={handleDelete} />
             </CardActions>
 
         </Card>

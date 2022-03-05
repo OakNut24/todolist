@@ -6,9 +6,10 @@ import MenuItem from '@mui/material/MenuItem';
 interface Props {
     anchorEl: any | null;
     onClose: () => void;
+    onDelete: () => void;
 }
 
-export default function ListBlockMenu({ anchorEl, onClose }: Props) {
+export default function ListBlockMenu({ anchorEl, onClose, onDelete }: Props) {
 
     function handleClose() {
         onClose();
@@ -30,7 +31,7 @@ export default function ListBlockMenu({ anchorEl, onClose }: Props) {
         >
             <MenuItem onClick={handleClose}>Done/Undone</MenuItem>
             <MenuItem onClick={handleClose}>Rename</MenuItem>
-            <MenuItem onClick={handleClose}>Delete</MenuItem>
+            <MenuItem onClick={onDelete}>Delete</MenuItem>
         </Menu>
     );
 }
