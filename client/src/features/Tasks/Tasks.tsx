@@ -5,32 +5,42 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
-import TaskListBlock from './TaskListBlock';
+import TaskListBlock from './TaskCard';
 import CreateTaskDialog from './CreateTaskDialog';
 import { useEffect, useState } from 'react';
 import agent from '../../app/api/agent';
-import TasksList from './TasksList';
 import { Task } from '../../app/Models/Task';
 import { Box } from '@mui/material';
+import EditTaskDialog from './EditTaskDialog';
 
 export default function Tasks() {
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [openCreateDialog, setOpenCreateDialog] = useState(false);
+    const [isFetching, setIsFetching] = useState(true);
+    const [editTask, setEditTask] = useState(false);
+    const [selectedTask, setSelectedTask] = useState<Task>({
+        _id: "",
+        title: "",
+        desc: "",
+        status: false
+    });
     useEffect(() => {
-        try {
-            agent.Tasks.list('test')
-                .then(data => {
-                    setTasks(data)
-                })
-                .catch(err => console.error(err))
-                .finally(() => {
-                })
-        } catch (err) {
-            console.error(err);
+        if (isFetching) {
+            try {
+                agent.Tasks.list('test')
+                    .then(data => {
+                        setTasks(data)
+                    })
+                    .catch(err => console.error(err))
+                    .finally(() => {
+                        setIsFetching(false);
+                    })
+            } catch (err) {
+                console.error(err);
+            }
         }
-
-    }, [])
+    }, [isFetching])
 
     function handleOpenDialogClick() {
         setOpenCreateDialog(true);
@@ -39,8 +49,18 @@ export default function Tasks() {
         setOpenCreateDialog(false);
     }
 
-    function handleTaskCreated(task: Task) {
-        console.log("the added task:" + task);
+    function handleOpenEditDialog(task: Task) {
+        setSelectedTask(task);
+        setEditTask(true);
+    }
+    function handleCloseEditDialog() {
+        setEditTask(false);
+    }
+
+
+
+
+    function handleTaskCreated(task: Task) { //Update the local tasks
         setTasks((prevTasks) => {
             return [...prevTasks, task];
         });
@@ -63,6 +83,9 @@ export default function Tasks() {
 
     }
 
+    function handleTaskEdited(updatedTask: Task) {
+        setIsFetching(true);
+    }
     return <>
         <Card sx={{ width: 345 }}>
             <CardHeader
@@ -76,7 +99,7 @@ export default function Tasks() {
             <CardContent>
                 {tasks.map((task) => (
                     <Box key={task._id}>
-                        <TaskListBlock task={task} onDelete={handleTaskDeleted} />
+                        <TaskListBlock task={task} onDelete={handleTaskDeleted} onStartEdit={handleOpenEditDialog} onFinishEdit={handleCloseEditDialog} />
                     </Box>
                 ))}
 
@@ -88,5 +111,7 @@ export default function Tasks() {
                 </IconButton>
             </CardActions>
             <CreateTaskDialog open={openCreateDialog} onClose={handleCloseDialog} handleTaskCreated={handleTaskCreated} />
+            <EditTaskDialog open={editTask} task={selectedTask} onClose={handleCloseEditDialog} onEdit={handleTaskEdited} />
+
         </Card></>
 }

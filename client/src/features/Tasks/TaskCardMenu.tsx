@@ -1,5 +1,3 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
@@ -7,9 +5,11 @@ interface Props {
     anchorEl: any | null;
     onClose: () => void;
     onDelete: () => void;
+    onEdit: () => void;
 }
 
-export default function ListBlockMenu({ anchorEl, onClose, onDelete }: Props) {
+
+export default function ListBlockMenu({ anchorEl, onClose, onDelete, onEdit }: Props) {
 
     function handleClose() {
         onClose();
@@ -19,6 +19,10 @@ export default function ListBlockMenu({ anchorEl, onClose, onDelete }: Props) {
     //     onClose();
     // };
 
+    function handleEdit() {//Close the menu & open the edit dialog
+        onEdit();
+        onClose();
+    }
     return (
         <Menu
             id="basic-menu"
@@ -29,9 +33,8 @@ export default function ListBlockMenu({ anchorEl, onClose, onDelete }: Props) {
                 'aria-labelledby': 'basic-button',
             }}
         >
-            <MenuItem onClick={handleClose}>Done/Undone</MenuItem>
-            <MenuItem onClick={handleClose}>Rename</MenuItem>
+            <MenuItem onClick={handleEdit}>Edit</MenuItem>
             <MenuItem onClick={onDelete}>Delete</MenuItem>
-        </Menu>
+        </Menu >
     );
 }

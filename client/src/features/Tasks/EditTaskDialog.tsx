@@ -16,15 +16,22 @@ import agent from '../../app/api/agent';
 export interface Props {
     open: boolean;
     onClose: () => void;
-    handleTaskCreated: (task: Task) => void;
+    onEdit: (task: Task) => void;
+    task: Task;
 }
 
-export default function CreateTaskDialog(props: Props) {
+export default function EditTaskDialog(props: Props) {
     const { control, reset, watch, setError, handleSubmit, formState: { errors, isDirty } } = useForm({
         resolver: yupResolver(validationScehma)
     });
-    const { open, onClose, handleTaskCreated, ...other } = props;
+    const { open, onClose, onEdit, task, ...other } = props;
 
+
+    useEffect(() => {
+        if (task && !isDirty) {
+            reset(task)
+        }
+    }, [task, isDirty])
 
     const handleCancel = () => {
         reset();
@@ -35,11 +42,12 @@ export default function CreateTaskDialog(props: Props) {
     async function handleSubmitData(data: FieldValues) {
         try {
             let response: Task;
-            response = await agent.Tasks.createTask(data);
-            props.handleTaskCreated(response);
+            response = await agent.Tasks.updateTask(props.task._id, data);
             handleCancel();//Reseting the values and closing the dialog
+            onEdit(task);
+            //Implement refresh the tasks on the ui
         } catch (err) {
-            console.log("error trying to submit new task to server side" + err);
+            console.log("error trying to update  task to server side" + err);
         }
     }
 
@@ -66,7 +74,7 @@ export default function CreateTaskDialog(props: Props) {
                     <Button autoFocus onClick={handleCancel}>
                         Cancel
                     </Button>
-                    <Button type='submit'>CREATE</Button>
+                    <Button type='submit'>EDIT</Button>
                 </DialogActions>
             </form>
         </Dialog >
