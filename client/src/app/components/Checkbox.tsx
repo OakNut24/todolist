@@ -3,13 +3,13 @@ import Checkbox from '@mui/material/Checkbox';
 
 interface Props {
     onClick: () => void;//Change this to not have ?
-    defaultState?: boolean;
+    defaultState: boolean;
     color: string;
 }
 
-export default function CheckBox({ ...props }: Props) {
+export default function CheckBox(props: Props) {
 
-    const [enabled, setEnabled] = useState(props.defaultState ? props.defaultState : false);
+    const [enabled, setEnabled] = useState(props.defaultState);
 
     const handleChange = () => {
         setEnabled(!enabled);

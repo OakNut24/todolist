@@ -9,9 +9,9 @@ const url = require("./config/url");
 
 //Initialize the express app
 const app = express();
-app.use(cors({ origin: url.urlClient(), credentials: true }));
+app.use(cors({ origin: url.urlClient() }));
 dotenv.config({ path: './config/.env' });
-
+app.disable('etag');
 
 // if(process.env.NODE_ENV === 'production'){
 //   app.use(cors({ origin: "https://intense-crag-31630.herokuapp.com", credentials: true }));

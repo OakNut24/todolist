@@ -5,6 +5,10 @@ const TaskSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  taskId: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -12,9 +16,9 @@ const TaskSchema = new mongoose.Schema({
   desc: {
     type: String,
   },
-  status:{
+  status: {
     type: Boolean,
-    require:true
+    require: true
   },
   createdAt: {
     type: Date,

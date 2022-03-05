@@ -16,7 +16,7 @@ const addNewTask = (async (req, res) => {
 
 const getUserTasks = (async (req, res) => {
     let userGoogleId = req.params.googleId;
-    console.log("1111");
+    console.log("userGoogleId" + userGoogleId);
     try {
         let tasks;
         if (userGoogleId) {
@@ -25,6 +25,7 @@ const getUserTasks = (async (req, res) => {
         else {
             tasks = await Task.find();
         }
+        console.log(tasks);
         res.status(200).json(tasks);
 
     } catch (err) {

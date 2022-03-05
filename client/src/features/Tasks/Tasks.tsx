@@ -5,25 +5,25 @@ import CardActions from '@mui/material/CardActions';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
 import Divider from '@mui/material/Divider';
-import ListBlock from './TaskListBlock';
+import TaskListBlock from './TaskListBlock';
 import CreateTaskDialog from './CreateTaskDialog';
 import { useEffect, useState } from 'react';
 import agent from '../../app/api/agent';
+import TasksList from './TasksList';
+import { Task } from '../../app/Models/Task';
+import { Box } from '@mui/material';
 
 export default function Tasks() {
 
-    const [tasks, setTasks] = useState([]);
-    const [loading, setLoading] = useState(false);
-
+    const [tasks, setTasks] = useState<Task[]>([]);
     useEffect(() => {
-        const params = new URLSearchParams();
-        params.append('googleId', 'test');
         try {
-            agent.Tasks.list(params)
-                .then(tasks => setTasks(tasks))
+            agent.Tasks.list('test')
+                .then(data => {
+                    setTasks(data)
+                })
                 .catch(err => console.error(err))
                 .finally(() => {
-                    setLoading(true);
                 })
         } catch (err) {
             console.error(err);
@@ -43,16 +43,9 @@ export default function Tasks() {
             <Divider />
 
             <CardContent>
-                <ListBlock />
-                <ListBlock />
-
-                <ListBlock />
-                <ListBlock />
-                <ListBlock />
-                <ListBlock />
-                <ListBlock />
-                <ListBlock />
-
+                {tasks.map((task) => (
+                    <TaskListBlock task={task} />
+                ))}
             </CardContent>
 
             <CardActions disableSpacing>
@@ -60,7 +53,7 @@ export default function Tasks() {
                     <AddIcon fontSize='large' sx={{ color: 'secondary.main' }} />
                 </IconButton>
             </CardActions>
-            <CreateTaskDialog open={true} />
+            <CreateTaskDialog open={false} />
         </Card></>
 }
 

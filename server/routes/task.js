@@ -4,7 +4,7 @@ const { addNewTask, getUserTasks, updateTaskWithId, deleteTaskWithId } = require
 // const {isUserAuthenticated} = require("../middleware/auth");
 
 //@path /Task/:googleId/categoryName/:categoryName   --> get all the user's Tasks with the requested category(Tasks,archive,trash)
-routes.route("/user/:googleId")
+routes.route("/:googleId")
     .get(getUserTasks);
 
 

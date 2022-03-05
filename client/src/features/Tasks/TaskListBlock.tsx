@@ -15,8 +15,12 @@ import DragHandleIcon from '@mui/icons-material/DragHandle';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import ListBlockMenu from './ListBlockMenu';
 import CheckBox from '../../app/components/Checkbox';
+import { Task } from '../../app/Models/Task';
 
-export default function ListBlock() {
+
+
+
+export default function ListBlock(props: any) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -35,16 +39,14 @@ export default function ListBlock() {
     return <>
         <Card sx={{ display: 'flex', justifyContent: 'space-between', boxShadow: 'none' }}>
             <CardHeader
-                title="Alon's List"
-                subheader="subtitle"
+                title={props.task.title}
+                subheader={props.task.desc}
                 titleTypographyProps={{
                     sx: { fontSize: 16 },
                 }}
             />
-
-
             <CardActions disableSpacing>
-                <CheckBox color='secondary.main' onClick={handleCheckBoxClick} />
+                <CheckBox color='secondary.main' defaultState={props.task.status} onClick={handleCheckBoxClick} />
                 {/* <IconButton aria-label="add to favorites">
                     <CheckBoxIcon fontSize='medium' sx={{ color: 'secondary.main' }} />
                 </IconButton> */}
