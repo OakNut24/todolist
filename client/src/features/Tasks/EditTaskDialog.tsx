@@ -21,7 +21,7 @@ export interface Props {
 }
 
 export default function EditTaskDialog(props: Props) {
-    const { control, reset, watch, setError, handleSubmit, formState: { errors, isDirty } } = useForm({
+    const { control, reset, handleSubmit, formState: { isDirty } } = useForm({
         resolver: yupResolver(validationScehma)
     });
     const { open, onClose, onEdit, task, ...other } = props;
@@ -44,8 +44,7 @@ export default function EditTaskDialog(props: Props) {
             let response: Task;
             response = await agent.Tasks.updateTask(props.task._id, data);
             handleCancel();//Reseting the values and closing the dialog
-            onEdit(task);
-            //Implement refresh the tasks on the ui
+            onEdit(task);//Refreshing the UI
         } catch (err) {
             console.log("error trying to update  task to server side" + err);
         }
@@ -59,14 +58,14 @@ export default function EditTaskDialog(props: Props) {
             {...other}
         >
             <form onSubmit={handleSubmit(handleSubmitData)}>
-                <DialogTitle>Create A Task</DialogTitle>
+                <DialogTitle>Edit A Task</DialogTitle>
                 <DialogContent dividers sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
-                            <AppTextInput control={control} name='title' label='Task Title' />
+                            <AppTextInput control={control} name='title' label='Task Title ' maxLength={13} />
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            <AppTextInput control={control} name='desc' label='Task Description' />
+                            <AppTextInput control={control} name='desc' label='Task Description' maxLength={13} />
                         </Grid>
                     </Grid>
                 </DialogContent>

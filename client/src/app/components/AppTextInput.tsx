@@ -6,6 +6,7 @@ interface Props extends UseControllerProps {
     multiline?: boolean;
     rows?: number;
     type?: string;
+    maxLength?: number;
 }
 
 export default function AppTextInput(props: Props) {
@@ -17,6 +18,7 @@ export default function AppTextInput(props: Props) {
             multiline={props.multiline}
             rows={props.rows}
             type={props.type}
+            inputProps={{ maxLength: props.maxLength }}
             fullWidth
             variant='outlined'
             error={!!fieldState.error}

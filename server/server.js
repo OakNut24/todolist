@@ -9,17 +9,10 @@ const url = require("./config/url");
 
 //Initialize the express app
 const app = express();
-app.use(cors({ origin: url.urlClient() }));
+app.use(cors({ origin: url.urlClient(), credentials: true }));
 dotenv.config({ path: './config/.env' });
 app.disable('etag');
 
-// if(process.env.NODE_ENV === 'production'){
-//   app.use(cors({ origin: "https://intense-crag-31630.herokuapp.com", credentials: true }));
-// }else{
-//   app.use(cors({ origin: url, credentials: true }));
-//   //Load the ENV variables
-//   dotenv.config({ path: './config/.env' });
-// }
 
 //Use and set the cookie session settings
 app.use(

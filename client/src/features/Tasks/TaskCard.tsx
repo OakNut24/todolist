@@ -21,11 +21,9 @@ export default function ListBlock(props: any) {
 
     function handleClose() {
         setAnchorEl(null);
-        console.log("close")
     }
 
     async function handleCheckBoxClick(newStatus: boolean) {
-        console.log("checkbox pressed")
         try {
             const response = await agent.Tasks.updateTask(props.task._id, {
                 status: newStatus
@@ -49,14 +47,14 @@ export default function ListBlock(props: any) {
                 title={props.task.title}
                 subheader={props.task.desc}
                 titleTypographyProps={{
-                    sx: { fontSize: 16 },
+                    variant: 'subtitle1'
+                }}
+                subheaderTypographyProps={{
+                    variant: 'body2'
                 }}
             />
             <CardActions disableSpacing>
                 <CheckBox color='secondary.main' defaultState={props.task.status} onClick={handleCheckBoxClick} />
-                {/* <IconButton aria-label="add to favorites">
-                    <CheckBoxIcon fontSize='medium' sx={{ color: 'secondary.main' }} />
-                </IconButton> */}
                 <IconButton aria-label="task menu" onClick={handleClick}>
                     <DragHandleIcon fontSize='medium' />
                 </IconButton>
@@ -69,22 +67,3 @@ export default function ListBlock(props: any) {
     </>
 }
 
-
-{/* <Box>
-    <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-    >
-        <Grid item xs={8}>
-            <Typography>Title</Typography>
-            <Typography>Desc</Typography>
-        </Grid>
-        <Grid item xs={2}>
-        </Grid>
-        <Grid item xs={2}>
-        </Grid>
-
-    </Grid>
-</Box> */}

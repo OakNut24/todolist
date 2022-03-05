@@ -55,10 +55,10 @@ export default function CreateTaskDialog(props: Props) {
                 <DialogContent dividers sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
-                            <AppTextInput control={control} name='title' label='Task Title' />
+                            <AppTextInput control={control} name='title' label='Task Title' maxLength={13} />
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            <AppTextInput control={control} name='desc' label='Task Description' />
+                            <AppTextInput control={control} name='desc' label='Task Description' maxLength={13} />
                         </Grid>
                     </Grid>
                 </DialogContent>
