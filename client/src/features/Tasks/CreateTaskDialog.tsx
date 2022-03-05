@@ -8,18 +8,22 @@ import { Grid } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
 import { useEffect } from 'react';
 import AppTextInput from '../../app/components/AppTextInput';
+import { validationScehma } from './createTaskValidation';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Task } from '../../app/Models/Task';
+import agent from '../../app/api/agent';
 
 export interface Props {
     open: boolean;
-    // onClose: (value?: string) => void;
-    // onAdd: () => void;
-    // handleTaskAdded: () => void;
+    onClose: () => void;
+    handleTaskCreated: (task: Task) => void;
 }
 
 export default function CreateTaskDialog(props: Props) {
     const { control, reset, watch, setError, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(validationScehma)
     });
-    const { open, ...other } = props;
+    const { open, onClose, handleTaskCreated, ...other } = props;
 
     const handleCancel = () => {
         reset({
@@ -28,11 +32,19 @@ export default function CreateTaskDialog(props: Props) {
             rating: 0,
             file: null,
         });
+        onClose();
     };
 
 
-    function handleSubmitData(data: FieldValues) {
-        console.log(data);
+    async function handleSubmitData(data: FieldValues) {
+        try {
+            let response: Task;
+            response = await agent.Tasks.createTask(data);
+            props.handleTaskCreated(response);
+            handleCancel();//Reseting the values and closing the dialog
+        } catch (err) {
+            console.log("error trying to submit new task to server side" + err);
+        }
     }
 
     return (
@@ -64,3 +76,4 @@ export default function CreateTaskDialog(props: Props) {
         </Dialog >
     );
 }
+

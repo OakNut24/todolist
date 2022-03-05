@@ -1,7 +1,7 @@
 
 export interface Task {
     googleId?: string,
-    taskId: string,
+    _id: string,
     title: string,
     desc?: string,
     status: boolean

@@ -9,7 +9,7 @@ routes.route("/:googleId")
 
 
 //@path /Task/add   --> add a single Task
-routes.route('/add').post(addNewTask);//@function: Using the function from the Task.js controller
+routes.route('/').post(addNewTask);//@function: Using the function from the Task.js controller
 
 
 //@path /Task:TaskID

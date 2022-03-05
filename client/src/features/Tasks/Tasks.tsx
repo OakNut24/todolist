@@ -16,6 +16,7 @@ import { Box } from '@mui/material';
 export default function Tasks() {
 
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [openCreateDialog, setOpenCreateDialog] = useState(false);
     useEffect(() => {
         try {
             agent.Tasks.list('test')
@@ -31,6 +32,19 @@ export default function Tasks() {
 
     }, [])
 
+    function handleOpenDialogClick() {
+        setOpenCreateDialog(true);
+    }
+    function handleCloseDialog() {
+        setOpenCreateDialog(false);
+    }
+
+    function handleTaskCreated(task: Task) {
+        console.log("the added task:" + task);
+        setTasks((prevTask) => {
+            return [...prevTask, task];
+        });
+    }
 
     return <>
         <Card sx={{ width: 345 }}>
@@ -44,16 +58,19 @@ export default function Tasks() {
 
             <CardContent>
                 {tasks.map((task) => (
-                    <TaskListBlock task={task} />
+                    <Box key={task._id}>
+                        <TaskListBlock task={task} />
+                    </Box>
                 ))}
+
             </CardContent>
 
             <CardActions disableSpacing>
-                <IconButton aria-label="add to favorites">
+                <IconButton aria-label="Add new task" onClick={handleOpenDialogClick}>
                     <AddIcon fontSize='large' sx={{ color: 'secondary.main' }} />
                 </IconButton>
             </CardActions>
-            <CreateTaskDialog open={false} />
+            <CreateTaskDialog open={openCreateDialog} onClose={handleCloseDialog} handleTaskCreated={handleTaskCreated} />
         </Card></>
 }
 

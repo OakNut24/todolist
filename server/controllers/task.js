@@ -4,8 +4,14 @@ const { TaskSchema } = ("../models/Task");
 const Task = mongoose.model('Task', TaskSchema);
 
 const addNewTask = (async (req, res) => {
-    const newTask = new Task(req.body);
+    const newTask = new Task({
+        googleId: "test",
+        title: req.body.title,
+        des: req.body.desc,
+        status: false,
+    });
 
+    console.log(newTask);
     try {
         const savedTask = await newTask.save();
         res.status(200).json(savedTask);

@@ -20,11 +20,14 @@ const requests = {
     post: (url: string, body: {}) => axios.post(url, body).then(responseBody),
     put: (url: string, body: {}) => axios.put(url, body).then(responseBody),
     delete: (url: string) => axios.delete(url).then(responseBody),
+    postForm: (url: string, data: FormData) => axios.post(url, data, {
+        headers: { 'Content-type': 'multipart/form-data' }
+    }).then(responseBody)
 }
 
 const Tasks = {
     list: (googleId: string) => requests.get('task', googleId),
-    // createTask: (product: any) => requests.postForm('products', createFormData(product)),
+    createTask: (task: any) => requests.post('task', task),
     // updateTask: (product: any) => requests.putForm('products', createFormData(product)),
     // deleteTask: (id: number) => requests.delete(`products/${id}`)
 }

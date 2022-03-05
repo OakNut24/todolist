@@ -12,7 +12,7 @@ export default function TasksList({ tasks }: Props) {
     return <>
         {
             tasks.map((task: Task) => {
-                <Box key={task.taskId}><TaskListBlock task={task} /></Box>
+                <TaskListBlock task={task} />
             })
         }</>
 
