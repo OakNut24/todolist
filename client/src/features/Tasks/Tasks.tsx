@@ -1,25 +1,25 @@
-import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import IconButton from '@mui/material/IconButton';
+import { Switch, Card, CardHeader, CardContent, CardActions, IconButton, Divider, Box } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import Divider from '@mui/material/Divider';
 import TaskListBlock from './TaskCard';
 import CreateTaskDialog from './CreateTaskDialog';
 import { useEffect, useState } from 'react';
 import agent from '../../app/api/agent';
 import { Task } from '../../app/Models/Task';
-import { Box } from '@mui/material';
 import EditTaskDialog from './EditTaskDialog';
 
-export default function Tasks() {
+interface Props {
+    onDarkModeChange: () => void;
+    darkMode: boolean;
+}
+
+
+export default function Tasks({ onDarkModeChange, darkMode }: Props) {
 
     const [tasks, setTasks] = useState<Task[]>([]);
-    const [openCreateDialog, setOpenCreateDialog] = useState(false);
-    const [isFetching, setIsFetching] = useState(true);
-    const [editTask, setEditTask] = useState(false);
-    const [selectedTask, setSelectedTask] = useState<Task>({
+    const [isFetching, setIsFetching] = useState(true); //Initialize the fetching from the server & indicates the state of the fetching
+    const [editTask, setEditTask] = useState(false); //Controlling the view mode of the edit menu
+    const [openCreateDialog, setOpenCreateDialog] = useState(false);//Controlling the view mode of the create task dialog
+    const [selectedTask, setSelectedTask] = useState<Task>({ //Saving the task the user is currently editng
         _id: "",
         title: "",
         desc: "",
@@ -89,14 +89,13 @@ export default function Tasks() {
     return <>
         <Card sx={{ width: 345 }}>
             <CardHeader
-                title="Todo List Example"
-                titleTypographyProps={{
-                    sx: { fontSize: 20 },
-                }}
+                title="Todo List"
             />
             <Divider />
 
             <CardContent>
+
+                {/* Generate the tasks list */}
                 {tasks.map((task) => (
                     <Box key={task._id}>
                         <TaskListBlock task={task} onDelete={handleTaskDeleted} onStartEdit={handleOpenEditDialog} onFinishEdit={handleCloseEditDialog} />
@@ -105,11 +104,17 @@ export default function Tasks() {
 
             </CardContent>
 
-            <CardActions disableSpacing>
+            <CardActions disableSpacing sx={{ justifyContent: 'space-between' }}>
                 <IconButton aria-label="Add new task" onClick={handleOpenDialogClick}>
                     <AddIcon fontSize='large' sx={{ color: 'secondary.main' }} />
                 </IconButton>
+
+                <Box display='flex' justifyContent='space-between' alignItems='center'>
+                    <Switch checked={darkMode} onChange={onDarkModeChange} />
+                </Box>
             </CardActions>
+
+            {/* Task Dialogs */}
             <CreateTaskDialog open={openCreateDialog} onClose={handleCloseDialog} handleTaskCreated={handleTaskCreated} />
             <EditTaskDialog open={editTask} task={selectedTask} onClose={handleCloseEditDialog} onEdit={handleTaskEdited} />
 

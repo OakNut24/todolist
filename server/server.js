@@ -1,8 +1,8 @@
 const dotenv = require('dotenv');
 const express = require("express");
 const cors = require("cors");
-const cookieSession = require("cookie-session");
-const passport = require("passport");
+// const cookieSession = require("cookie-session");
+// const passport = require("passport");
 const connectDB = require("./config/db");
 const path = require("path");
 const url = require("./config/url");
@@ -11,19 +11,20 @@ const url = require("./config/url");
 const app = express();
 app.use(cors({ origin: url.urlClient(), credentials: true }));
 dotenv.config({ path: './config/.env' });
-app.disable('etag');
 
 
 //Use and set the cookie session settings
-app.use(
-  cookieSession({
-    maxAge: 24 * 60 * 60 * 1000, // This set the time duration for the cookie => 1 day
-    keys: [process.env.COOKIE_KEY],//The secret of the key
-  })
-);
-//Initialize the use of passport+ session
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(
+//   cookieSession({
+//     maxAge: 24 * 60 * 60 * 1000, // This set the time duration for the cookie => 1 day
+//     keys: [process.env.COOKIE_KEY],//The secret of the key
+//   })
+// );
+
+
+//Initialize the use of passport+ session -> required for the passportGoogleSSO.js
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 //Body parser
 app.use(express.urlencoded({ extended: true }));
@@ -50,7 +51,7 @@ if (process.env.NODE_ENV === 'production') {
 connectDB();
 
 
-// require("./auth/passport");
+//In order to add the google oauth an google cloud project is required at  https://console.cloud.google.com
 // require("./config/passportGoogleSSO")(passport);
 
 const PORT = process.env.PORT || "5000";

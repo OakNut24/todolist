@@ -1,17 +1,10 @@
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Dialog from '@mui/material/Dialog';
-import { Grid } from '@mui/material';
 import { FieldValues, useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 import AppTextInput from '../../app/components/AppTextInput';
 import { validationScehma } from './taskValidation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Task } from '../../app/Models/Task';
 import agent from '../../app/api/agent';
+import { Dialog, DialogTitle, DialogContent, Grid, DialogActions, Button } from '@mui/material';
 
 export interface Props {
     open: boolean;
@@ -55,10 +48,10 @@ export default function CreateTaskDialog(props: Props) {
                 <DialogContent dividers sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={12}>
-                            <AppTextInput control={control} name='title' label='Task Title' maxLength={13} />
+                            <AppTextInput control={control} name='title' label='Task Title' maxLength={18} />
                         </Grid>
                         <Grid item xs={12} sm={12}>
-                            <AppTextInput control={control} name='desc' label='Task Description' maxLength={13} />
+                            <AppTextInput control={control} name='desc' label='Task Description' maxLength={20} />
                         </Grid>
                     </Grid>
                 </DialogContent>

@@ -1,25 +1,26 @@
 const routes = require('express').Router({ mergeParams: true });
 let Task = require('../models/Task');
 const { addNewTask, getUserTasks, updateTaskWithId, deleteTaskWithId } = require('../controllers/task');
-// const {isUserAuthenticated} = require("../middleware/auth");
+// const {isUserAuthenticated} = require("../middleware/auth"); implement this auth middleware when googleAuth is on
 
-//@path /Task/:googleId/categoryName/:categoryName   --> get all the user's Tasks with the requested category(Tasks,archive,trash)
+
+
+// @desc    Get user's tasks
+// @route   GET api/task/:googleId
 routes.route("/:googleId")
     .get(getUserTasks);
 
 
-//@path /Task/   --> add a single Task
+// @desc    Create task
+// @route   POST api/task
 routes.route('/').post(addNewTask);//@function: Using the function from the Task.js controller
 
 
-//@path /Task:TaskID
+// @desc    delete & patch fuctions
+// @route   api/task/:taskID
 routes.route("/:taskID")
-    // .get(getTaskWithID)//@function: Get the Task with given TaskID
     .patch(updateTaskWithId)//@function: Updates the Task with the new data 
-    .delete(deleteTaskWithId);//@function: Delete Task with the given TaskID
-
-// routes.route("/:taskID/status/:newStatus")
-//     .patch(updateTaskWithId)//@function: Updates the Task with the new status 
+    .delete(deleteTaskWithId);//@function: Delete Task with the given taskID
 
 
 module.exports = routes;

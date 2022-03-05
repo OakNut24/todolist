@@ -1,17 +1,17 @@
 const express = require('express')
 const passport = require('passport')
 const router = express.Router()
-const {isUserAuthenticated} = require("../middleware/auth");
+const { isUserAuthenticated } = require("../middleware/auth");
 const url = require("../config/url");
 
-const loginSuccessful = url.urlClient()+"/login/success";
-const loginFailed = url.urlClient()+"/login/failed";
+const loginSuccessful = url.urlClient() + "/login/success";
+const loginFailed = url.urlClient() + "/login/failed";
 
 
 
 // @desc    Auth with Google
 // @route   GET /auth/google
-router.get('/google', passport.authenticate('google', { scope: ['profile','email']}), (req,res) => {
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }), (req, res) => {
 });
 
 // @desc    Google auth callback
@@ -25,15 +25,15 @@ router.get(
 )
 
 // @desc    Logout user
-// @route   /auth/logout
+// @route   GET /auth/logout
 router.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/')
 })
 
 // @desc    Check if the client is authenticated. If yes return the user
-// @route   /auth/user
-router.get("/user", isUserAuthenticated, (req,res) =>{
+// @route   GET /auth/user
+router.get("/user", isUserAuthenticated, (req, res) => {
   res.json(req.user);
 });
 

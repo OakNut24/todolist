@@ -15,9 +15,6 @@ export default function ListBlockMenu({ anchorEl, onClose, onDelete, onEdit }: P
         onClose();
 
     }
-    // const handleClose = () => {
-    //     onClose();
-    // };
 
     function handleEdit() {//Close the menu & open the edit dialog
         onEdit();

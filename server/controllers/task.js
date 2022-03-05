@@ -5,13 +5,11 @@ const Task = mongoose.model('Task', TaskSchema);
 
 const addNewTask = (async (req, res) => {
     const newTask = new Task({
-        googleId: "test",
+        googleId: "test", //Using the same googleId for all tasks until adding googleauth
         title: req.body.title,
         desc: req.body.desc,
         status: false,
     });
-
-    console.log(req.body);
     try {
         const savedTask = await newTask.save();
         res.status(200).json(savedTask);
@@ -44,7 +42,7 @@ const updateTaskWithId = (async (req, res) => {
             {
                 $set: req.body,
             },
-            { new: true } //return the update task
+            { new: true } //return the updated task
         );
         res.status(200).json(updatedTask);
     } catch (err) {
@@ -55,7 +53,6 @@ const updateTaskWithId = (async (req, res) => {
 const deleteTaskWithId = (async (req, res) => {
     try {
         await Task.findByIdAndDelete(req.params.taskID);
-        console.log("enter");
         res.status(200).json("Task has been deleted...");
     }
     catch (err) {

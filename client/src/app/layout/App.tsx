@@ -21,15 +21,9 @@ export default function App() {
     }
   });
 
-  function handleThemeChange() {
+  function handleDarkModeChange() {
     setDarkMode(!darkMode);
   }
-
-  // display: flex;
-  // flex - direction: column;
-  // align - items: center;
-  // justify - content: center;
-
 
   const appContainer = {
     display: 'flex',
@@ -46,10 +40,8 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container sx={appContainer}>
-          {/* <List /> */}
-
           <Routes>
-            <Route path="/" element={<Tasks />} />
+            <Route path="/" element={<Tasks onDarkModeChange={handleDarkModeChange} darkMode={darkMode} />} />
             <Route
               path="*"
               element={
@@ -59,12 +51,7 @@ export default function App() {
               }
             />
           </Routes>
-
-
-
-
         </Container>
-
       </ThemeProvider>
     </>
   );
